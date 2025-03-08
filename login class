@@ -1,0 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace project1
+{
+    class sy
+    {
+        public static SqlConnection cn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\LOGINDATA.mdf;Integrated Security=True");
+        public static String login1(String txtunm, String param)
+        {
+            String Sql = "SELECT * FROM " + txtunm + " WHERE " + param;
+            SqlDataAdapter da = new SqlDataAdapter(Sql, cn);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            if (dt.Rows.Count == 1)
+            {
+                String active = dt.Rows[0][3].ToString();
+                if (active == "y")
+                {
+                    return "1";
+                }
+                else
+                {
+                    return "2";
+                }
+            }
+            else
+            {
+                return "3";
+            }
+        }
+    }
+}
