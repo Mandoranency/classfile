@@ -12,9 +12,9 @@ namespace project1
     class sy
     {
         public static SqlConnection cn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\LOGINDATA.mdf;Integrated Security=True");
-        public static String login1(String txtunm, String param)
+        public static String login(String tblnm, String param)
         {
-            String Sql = "SELECT * FROM " + txtunm + " WHERE " + param;
+            String Sql = "SELECT * FROM " + tblnm + " WHERE " + param;
             SqlDataAdapter da = new SqlDataAdapter(Sql, cn);
             DataTable dt = new DataTable();
             da.Fill(dt);
