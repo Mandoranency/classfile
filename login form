@@ -19,7 +19,7 @@ namespace project1
 
         private void btnlogin_Click(object sender, EventArgs e)
         {
-            string data = sy.login1("login1", "username='" + txtunm.Text + "' and password ='" + txtpwd.Text + "'");
+            string data = sy.login("login1", "username='" + txtunm.Text + "' and password ='" + txtpwd.Text + "'");
             if (data == "1")
             {
                 Form2 f2 = new Form2();
