@@ -7,27 +7,77 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static project1.sy;
 
 namespace project1
 {
     public partial class Form2: Form
     {
+        int id, tr;
+        private datanavigate navigator;
         public Form2()
         {
             InitializeComponent();
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\LOGINDATA.mdf;Integrated Security=True";
+            navigator = new datanavigate(connectionString);
+            UpdateFields();
         }
 
         private void btninsert_Click(object sender, EventArgs e)
         {
             string param = txtsnm.Text + "','" + txtmob.Text;
             sy.Crud("Insert", "insert1", param);
+            txtsnm.Text = txtmob.Text = string.Empty;
+
             dataGridView1.DataSource = sy.Crud("select", "insert1", "");
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
+            txtsnm.Text = txtmob.Text = string.Empty;   
             dataGridView1.DataSource = sy.Crud("select", "insert1", "");
+        }
+        private void UpdateFields()
+        {
+            txtsnm.Text = navigator.Name;
+            txtmob.Text = navigator.Number;
+        }
 
+        private void btnnext_Click(object sender, EventArgs e)
+        {
+            navigator.NextRecord();
+            UpdateFields();
+            btnupdate.Enabled = true;
+            btndelete.Enabled = true;
+            btninsert.Text = "&Insert";
+        }
+
+        private void btnprev_Click(object sender, EventArgs e)
+        {
+            navigator.PreviousRecord();
+            UpdateFields();
+            btnupdate.Enabled = true;
+            btndelete.Enabled = true;
+            btninsert.Text = "&Insert";
+        }
+
+        private void btnlast_Click(object sender, EventArgs e)
+        {
+            navigator.LastRecord();
+            UpdateFields();
+            btnupdate.Enabled = true;
+            btndelete.Enabled = true;
+            btninsert.Text = "&Insert";
+        }
+
+        private void btnfirst_Click(object sender, EventArgs e)
+        {
+
+            navigator.FirstRecord();
+            UpdateFields();
+            btnupdate.Enabled = true;
+            btndelete.Enabled = true;
+            btninsert.Text = "&Insert";
         }
     }
 }
