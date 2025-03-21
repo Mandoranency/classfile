@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static project1.sy;
+
+namespace project1
+{
+    public partial class Form2: Form
+    {
+       public static string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\LOGINDATA.mdf;Integrated Security=True";
+        private sy.RecordNavigator navigator;
+        public Form2()
+        {
+            InitializeComponent();
+            navigator = new sy.RecordNavigator(cn, txtsnm, txtmob);
+
+        }
+        private void btninsert_Click(object sender, EventArgs e)
+        {
+            string param = txtsnm.Text + "','" + txtmob.Text;
+            sy.Crud("Insert", "insert1", param);
+            txtsnm.Text = txtmob.Text = string.Empty;
+
+            dataGridView1.DataSource = sy.Crud("select", "insert1", "");
+        }
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            txtsnm.Text = txtmob.Text = string.Empty;   
+            dataGridView1.DataSource = sy.Crud("select", "insert1", "");
+
+        }
+        private void btnfirst_Click(object sender, EventArgs e)
+        {
+            navigator.GoToFirst();
+        }
+
+        private void btnnext_Click(object sender, EventArgs e)
+        {
+            navigator.GoToNext();
+        }
+        private void btnprev_Click(object sender, EventArgs e)
+        {
+            navigator.GoToPrevious();
+        }
+        private void btnlast_Click(object sender, EventArgs e)
+        {
+            navigator.GoToLast();
+        }
+        private void btnupdate_Click_1(object sender, EventArgs e)
+        {
+            string param = "student_name = '" + txtsnm.Text + "', moblie_No = '" + txtmob.Text + "' WHERE id = '" + sy.id + "'";
+            sy.Crud("update", "insert1", param);
+            dataGridView1.DataSource = sy.Crud("select", "insert1", "");
+            txtsnm.Text = txtmob.Text = string.Empty;
+        }
+        private void btndelete_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this record?", "Confirm Deletion", MessageBoxButtons.YesNo);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                string param = "WHERE id = '" + sy.id + "'";
+                DataTable result = sy.Crud("delete", "insert1", param);
+                dataGridView1.DataSource = sy.Crud("select", "insert1", "");
+                txtsnm.Text = txtmob.Text = string.Empty;
+            }
+        }
+    }
+}
